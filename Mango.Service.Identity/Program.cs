@@ -52,8 +52,12 @@ app.UseIdentityServer();
 app.UseAuthorization();
 
 // DbInitializer
-var resolvedDbInitializer = app.Services.GetRequiredService<IDbInitializer>();
-resolvedDbInitializer.Initialize();
+var scope = app.Services.CreateScope();
+var resolvedDbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
+if (resolvedDbInitializer != null)
+{
+    resolvedDbInitializer.Initialize();
+}
 
 app.MapControllerRoute(
     name: "default",

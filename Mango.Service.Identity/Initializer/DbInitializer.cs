@@ -40,7 +40,7 @@ namespace Mango.Service.Identity.Initializer
                 LastName = "Admin"
             };
 
-            _userManager.CreateAsync(adminUser, "Admin123").GetAwaiter().GetResult();
+            _userManager.CreateAsync(adminUser, "Admin123*").GetAwaiter().GetResult();
             _userManager.AddToRoleAsync(adminUser, SD.Admin).GetAwaiter().GetResult();
 
             var temp1 = _userManager.AddClaimsAsync(adminUser, new Claim[]
@@ -49,7 +49,7 @@ namespace Mango.Service.Identity.Initializer
                 new Claim(JwtClaimTypes.GivenName, adminUser.FirstName),
                 new Claim(JwtClaimTypes.FamilyName, adminUser.LastName),
                 new Claim(JwtClaimTypes.Role, SD.Admin),
-            });
+            }).Result;
 
             ApplicationUser customerUser = new ApplicationUser()
             {
@@ -61,7 +61,7 @@ namespace Mango.Service.Identity.Initializer
                 LastName = "Cust"
             };
 
-            _userManager.CreateAsync(customerUser, "Admin123").GetAwaiter().GetResult();
+            _userManager.CreateAsync(customerUser, "Admin123*").GetAwaiter().GetResult();
             _userManager.AddToRoleAsync(customerUser, SD.Customer).GetAwaiter().GetResult();
 
             var temp2 = _userManager.AddClaimsAsync(customerUser, new Claim[]
@@ -70,7 +70,7 @@ namespace Mango.Service.Identity.Initializer
                 new Claim(JwtClaimTypes.GivenName, customerUser.FirstName),
                 new Claim(JwtClaimTypes.FamilyName, customerUser.LastName),
                 new Claim(JwtClaimTypes.Role, SD.Customer),
-            });
+            }).Result;
         }
     }
 }
